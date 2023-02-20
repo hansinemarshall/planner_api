@@ -1,10 +1,24 @@
 package com.forkit.planner_api.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.*;
+
+@Entity
+@Table (name = "items")
 public class ToDoItem {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column
     private Long id;
+
+    @Column
     private String task;
+    @ManyToOne
+    @JoinColumn(name = "toDoList_id")
+    @JsonIgnoreProperties({"items"})
     private ToDoList toDoList;
+    @Column
     private boolean completed;
 
     public ToDoItem(Long id, String task, ToDoList toDoList, boolean completed) {

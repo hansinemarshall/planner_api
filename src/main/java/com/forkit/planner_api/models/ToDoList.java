@@ -1,12 +1,25 @@
 package com.forkit.planner_api.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.*;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+@Entity
+@Table(name = "toDoList")
 public class ToDoList {
 
+    @Id
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @Column
     private Long id;
+
+    @OneToMany(mappedBy = "toDoList")
+    @JsonIgnoreProperties({"toDoList"})
     private ArrayList<ToDoItem> items;
+
+    @Column
     private LocalDate date;
 
     public ToDoList(Long id, LocalDate date) {
