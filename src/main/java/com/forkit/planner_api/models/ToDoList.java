@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "toDoList")
@@ -17,16 +18,23 @@ public class ToDoList {
 
     @OneToMany(mappedBy = "toDoList")
     @JsonIgnoreProperties({"toDoList"})
-    private ArrayList<ToDoItem> items;
+    private List<ToDoItem> items;
 
     @Column
     private LocalDate date;
 
-    public ToDoList(Long id, LocalDate date) {
+    @Column
+    private boolean isComplete;
+
+    public ToDoList(Long id, LocalDate date, boolean completed) {
         this.id = id;
         this.items = new ArrayList<>();
         this.date = date;
+        this.isComplete = false;
+
     }
+
+
 
     public ToDoList(){}
 
@@ -38,11 +46,11 @@ public class ToDoList {
         this.id = id;
     }
 
-    public ArrayList<ToDoItem> getItems() {
+    public List<ToDoItem> getItems() {
         return items;
     }
 
-    public void setItems(ArrayList<ToDoItem> items) {
+    public void setItems(List<ToDoItem> items) {
         this.items = items;
     }
 
@@ -52,5 +60,13 @@ public class ToDoList {
 
     public void setDate(LocalDate date) {
         this.date = date;
+    }
+
+    public boolean isComplete() {
+        return isComplete;
+    }
+
+    public void setComplete(boolean complete) {
+        isComplete = complete;
     }
 }
