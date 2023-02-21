@@ -12,5 +12,5 @@ import java.util.List;
 @Repository
 public interface ToDoListRepository extends JpaRepository<ToDoList, Long> {
     List<ToDoList> findByDate (LocalDate date);
-    List<ToDoList> findByCompleteTrue();
+    List<ToDoList> findByIsCompleteTrue();
 }

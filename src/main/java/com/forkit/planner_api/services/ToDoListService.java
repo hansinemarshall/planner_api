@@ -24,8 +24,7 @@ public class ToDoListService {
     //-------------- TODOITEMS ---------------
 
     // add item
-    public ToDoItem addItem (ToDoItem item){ toDoItemRepository.save(item);
-    return item;}
+    public ToDoItem addItem (ToDoItem item){ return toDoItemRepository.save(item);}
     // find item by Id
     public ToDoItem findItemById (Long Id){
         return toDoItemRepository.findById(Id).get();
@@ -57,14 +56,12 @@ public class ToDoListService {
 
 
     //add toDoList
-    public ToDoList addItemToToDoList(Long toDoListId, Long toDoItemId){
+    public ToDoItem addItemToToDoList(Long toDoListId, ToDoItem newItem){
         ToDoList listToUpdate = toDoListRepository.findById(toDoListId).get();
-        ToDoItem newItem = findItemById(toDoItemId);
-        List<ToDoItem> items = listToUpdate.getItems();
-        items.add(newItem);
-        listToUpdate.setItems(items);
-        toDoListRepository.save(listToUpdate);
-        return listToUpdate;
+//        ToDoItem newItem = findItemById(toDoItemId);
+//        listToUpdate.getItems().add(newItem);
+//        toDoItemRepository.save(newItem);
+        return toDoItemRepository.save(newItem);
 
     }
     // find toDoList by Id
@@ -86,7 +83,7 @@ public class ToDoListService {
     }
     // show todolist is complete
     public List<ToDoList> getAllCompletedLists(){
-        List<ToDoList> completedLists = toDoListRepository.findByCompleteTrue();
+        List<ToDoList> completedLists = toDoListRepository.findByIsCompleteTrue();
         return completedLists;
     }
     //update boolean method from false to true

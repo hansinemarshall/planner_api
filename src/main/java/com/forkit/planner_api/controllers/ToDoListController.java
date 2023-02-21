@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/todolist")
+@RequestMapping("/todolists")
 public class ToDoListController {
     @Autowired
     ToDoListService toDoListService;
@@ -26,13 +26,13 @@ public class ToDoListController {
         return new ResponseEntity<>(list, HttpStatus.CREATED);
     }
 
-    @PostMapping("/{id}")
-    public ResponseEntity<Optional<ToDoList>> addItemToList(@RequestBody ToDoItem item, @PathVariable Long listId) {
-        ToDoItem newItem = toDoListService.addItem(item);
-        Long itemId = newItem.getId();
-        Optional<ToDoList> listToAddItem = toDoListService.findListById(listId);
-        toDoListService.addItemToToDoList(listId, itemId);
-        return new ResponseEntity<>(listToAddItem, HttpStatus.CREATED);
+    @PostMapping("/{listId}")
+    public ResponseEntity<ToDoItem> addItemToList(@RequestBody ToDoItem item, @PathVariable Long listId) {
+//        ToDoItem newItem = toDoListService.addItem(item);
+//        Long itemId = newItem.getId();
+        toDoListService.addItemToToDoList(listId, item);
+//        Optional<ToDoList> listToAddItem = toDoListService.findListById(listId);
+        return new ResponseEntity<>(item, HttpStatus.CREATED);
     }
 
     //GET
@@ -57,10 +57,13 @@ public class ToDoListController {
 
     //PATCH
     @PatchMapping(value = "/{listId}/item/{itemId}")
-    public ResponseEntity<ToDoItem> updateItemCompletion(@RequestBody boolean completed, @PathVariable Long listId, @PathVariable Long itemId) {
-        ToDoItem updatedItem = toDoListService.updateItemCompletion(listId, itemId, completed);
+    public ResponseEntity<ToDoItem> updateItemCompletion(@RequestBody ToDoItem updatedItem, @PathVariable Long listId, @PathVariable Long itemId) {
+        boolean completed = updatedItem.isCompleted();
+        toDoListService.updateItemCompletion(listId, itemId, completed);
         return new ResponseEntity<>(updatedItem, HttpStatus.OK);
     }
+    // request body is item - how to just take in boolean?
+    
 
     //DELETE ITEM
     @DeleteMapping(value = "/{listId}/item/{itemId}")
