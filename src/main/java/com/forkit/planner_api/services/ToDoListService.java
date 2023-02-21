@@ -24,7 +24,8 @@ public class ToDoListService {
     //-------------- TODOITEMS ---------------
 
     // add item
-    public void addItem (ToDoItem item){ toDoItemRepository.save(item);}
+    public ToDoItem addItem (ToDoItem item){ toDoItemRepository.save(item);
+    return item;}
     // find item by Id
     public ToDoItem findItemById (Long Id){
         return toDoItemRepository.findById(Id).get();
@@ -33,18 +34,27 @@ public class ToDoListService {
     public List<ToDoItem> findAllItems (){
         return toDoItemRepository.findAll();
     }
+
     //delete item
-    public void deleteItem(Long id){
-        toDoItemRepository.deleteById(id);
+    public void deleteItem(Long listId, Long itemId) {
+    ToDoItem itemToBeDeleted = toDoItemRepository.findById(itemId).get();
+    ToDoList list = toDoListRepository.findById(listId).get();
+    if(itemToBeDeleted.getToDoList().getId().equals(list.getId())) {
+        toDoItemRepository.deleteById(itemId);
+    } else {
+        throw new RuntimeException("Item is not in list");
+    }
+
     }
 
     // update item
     public void updateItem (ToDoItem item){ toDoItemRepository.save(item);}
     //filter item by priority
 
-
-
     //----------- TODOLIST ----------
+
+    public void saveList (ToDoList list){ toDoListRepository.save(list);}
+
 
     //add toDoList
     public ToDoList addItemToToDoList(Long toDoListId, Long toDoItemId){
@@ -58,8 +68,8 @@ public class ToDoListService {
 
     }
     // find toDoList by Id
-    public ToDoList findListById (Long Id){
-        return toDoListRepository.findById(Id).get();
+    public Optional<ToDoList>  findListById (Long Id){
+        return toDoListRepository.findById(Id);
     }
     //display toDoList
     public List<ToDoList> findAllLists (){
