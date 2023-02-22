@@ -1,5 +1,6 @@
 package com.forkit.planner_api.controllers;
 
+import com.forkit.planner_api.enums.Priority;
 import com.forkit.planner_api.models.ToDoItem;
 import com.forkit.planner_api.models.ToDoList;
 import com.forkit.planner_api.models.ToDoListDTO;
@@ -64,7 +65,13 @@ public class ToDoListController {
         return new ResponseEntity<>(updatedItem, HttpStatus.OK);
     }
     // request body is item - how to just take in boolean?
-    
+
+
+    @PatchMapping(value = "/{listId}/item/{itemId}")
+    public ResponseEntity<ToDoItem> changeItemPriority(@RequestBody Priority priority, @PathVariable Long listId , @PathVariable Long itemId) {
+        ToDoItem item = toDoListService.changeItemPriority(itemId, priority);
+        return new ResponseEntity<>(item, HttpStatus.OK);
+    }
 
     //DELETE ITEM
     @DeleteMapping(value = "/{listId}/item/{itemId}")

@@ -1,5 +1,6 @@
 package com.forkit.planner_api.services;
 
+import com.forkit.planner_api.enums.Priority;
 import com.forkit.planner_api.models.ToDoItem;
 import com.forkit.planner_api.models.ToDoList;
 import com.forkit.planner_api.models.ToDoListDTO;
@@ -23,6 +24,14 @@ public class ToDoListService {
     ToDoItemRepository toDoItemRepository;
 
     //-------------- TODOITEMS ---------------
+
+    public ToDoItem changeItemPriority (Long itemId, Priority priority) {
+        ToDoItem item = toDoItemRepository.findById(itemId).get();
+        item.setPriority(priority);
+        return toDoItemRepository.save(item);
+    }
+
+
 
     // add item
     public ToDoItem addItem (ToDoItem item){ return toDoItemRepository.save(item);}

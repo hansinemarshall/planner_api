@@ -1,6 +1,7 @@
 package com.forkit.planner_api.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.forkit.planner_api.enums.Priority;
 import jakarta.persistence.*;
 
 @Entity
@@ -14,6 +15,10 @@ public class ToDoItem {
 
     @Column
     private String task;
+
+    @Enumerated(EnumType.ORDINAL)
+    private Priority priority;
+
     @ManyToOne
     @JoinColumn(name = "toDoList_id")
     @JsonIgnoreProperties({"items"})
@@ -26,6 +31,7 @@ public class ToDoItem {
         this.task = task;
         this.toDoList = toDoList;
         this.isCompleted = false;
+        this.priority = Priority.LOW;
     }
 
     public ToDoItem(){}
@@ -60,5 +66,13 @@ public class ToDoItem {
 
     public void setCompleted(boolean completed) {
         this.isCompleted = completed;
+    }
+
+    public Priority getPriority() {
+        return priority;
+    }
+
+    public void setPriority(Priority priority) {
+        this.priority = priority;
     }
 }
