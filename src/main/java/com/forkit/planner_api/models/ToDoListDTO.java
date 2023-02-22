@@ -11,8 +11,8 @@ public class ToDoListDTO {
     private LocalDate date;
     private boolean isCompleted;
 
-    public ToDoListDTO(Long id, List<ToDoItem> items, LocalDate date, boolean isCompleted) {
-        this.id = id;
+    public ToDoListDTO( List<ToDoItem> items, LocalDate date, boolean isCompleted) {
+
         this.items = items;
         this.date = date;
         this.isCompleted = isCompleted;

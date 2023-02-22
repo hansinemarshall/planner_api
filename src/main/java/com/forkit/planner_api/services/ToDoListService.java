@@ -124,7 +124,7 @@ public class ToDoListService {
     }
 
     private ToDoListDTO toDoListDTOBuilder(ToDoList toDoList){
-        return new ToDoListDTO(toDoList.getId(), toDoList.getItems(), toDoList.getDate(), toDoList.checkListIsCompleted());
+        return new ToDoListDTO(toDoList.getItems(), toDoList.getDate(), toDoList.checkListIsCompleted());
     }
 
 

@@ -67,8 +67,8 @@ public class ToDoListController {
     // request body is item - how to just take in boolean?
 
 
-    @PatchMapping(value = "/{listId}/item/{itemId}")
-    public ResponseEntity<ToDoItem> changeItemPriority(@RequestBody Priority priority, @PathVariable Long listId , @PathVariable Long itemId) {
+    @PatchMapping(value = "/item/{itemId}")
+    public ResponseEntity<ToDoItem> changeItemPriority(@RequestBody Priority priority , @PathVariable Long itemId) {
         ToDoItem item = toDoListService.changeItemPriority(itemId, priority);
         return new ResponseEntity<>(item, HttpStatus.OK);
     }

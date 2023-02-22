@@ -24,19 +24,14 @@ public class ToDoList {
 
 
 
-    public ToDoList(Long id, LocalDate date) {
-        this.id = id;
+    public ToDoList(LocalDate date) {
         this.items = new ArrayList<>();
         this.date = date;
-
     }
 
     public boolean checkListIsCompleted(){
       return this.items.stream().allMatch(toDoItem -> toDoItem.isCompleted() == true);
-      // stream - in line function without a name and return type
-                //fancy way of doing for loops
-        //all match - of every item matches an expr
-        // ession
+
     }
 
     public void addItemToList(ToDoItem toDoItem){
