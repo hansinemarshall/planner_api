@@ -2,6 +2,7 @@ package com.forkit.planner_api.services;
 
 import com.forkit.planner_api.models.ToDoItem;
 import com.forkit.planner_api.models.ToDoList;
+import com.forkit.planner_api.models.ToDoListDTO;
 import com.forkit.planner_api.repositories.ToDoItemRepository;
 import com.forkit.planner_api.repositories.ToDoListRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,8 +41,11 @@ public class ToDoListService {
     ToDoList list = toDoListRepository.findById(listId).get();
     if(itemToBeDeleted.getToDoList().getId().equals(list.getId())) {
         toDoItemRepository.deleteById(itemId);
-    } else {
+    }else {
         throw new RuntimeException("Item is not in list");
+    }
+    if(list.getItems().isEmpty()){
+        toDoListRepository.deleteById(listId);
     }
 
     }
@@ -52,25 +56,38 @@ public class ToDoListService {
 
     //----------- TODOLIST ----------
 
-    public void saveList (ToDoList list){ toDoListRepository.save(list);}
+    public void saveList (ToDoList list){
+        list.setItems(new ArrayList<>());
+        toDoListRepository.save(list);}
 
 
     //add toDoList
-    public ToDoItem addItemToToDoList(Long toDoListId, ToDoItem newItem){
+    public void addItemToToDoList(Long toDoListId, ToDoItem newItem){
         ToDoList listToUpdate = toDoListRepository.findById(toDoListId).get();
-//        ToDoItem newItem = findItemById(toDoItemId);
-//        listToUpdate.getItems().add(newItem);
-//        toDoItemRepository.save(newItem);
-        return toDoItemRepository.save(newItem);
+        listToUpdate.addItemToList(newItem);
+        newItem.setToDoList(listToUpdate);
+        toDoItemRepository.save(newItem);
+        toDoListRepository.save(listToUpdate);
 
     }
     // find toDoList by Id
-    public Optional<ToDoList>  findListById (Long Id){
-        return toDoListRepository.findById(Id);
+    public ToDoListDTO  findListById (Long Id){
+        Optional<ToDoList> result = toDoListRepository.findById(Id);
+        if (result.isEmpty()){
+            return null;
+        }
+        ToDoList toDoList = result.get();
+        ToDoListDTO toDoListDTO = toDoListDTOBuilder(toDoList);
+        return toDoListDTO;
     }
     //display toDoList
-    public List<ToDoList> findAllLists (){
-        return toDoListRepository.findAll();
+    public List<ToDoListDTO> findAllLists (){
+        List<ToDoList> toDoLists = toDoListRepository.findAll();
+        List<ToDoListDTO> toDoListDTOS = new ArrayList<>();
+        for(ToDoList toDoList : toDoLists){
+            toDoListDTOS.add(toDoListDTOBuilder(toDoList));
+        }
+        return toDoListDTOS;
     }
     // filter toDoListByDate
     public List<ToDoList>filterToDoListByDate(LocalDate date){
@@ -82,29 +99,25 @@ public class ToDoListService {
         toDoListRepository.deleteById(id);
     }
     // show todolist is complete
-    public List<ToDoList> getAllCompletedLists(){
-        List<ToDoList> completedLists = toDoListRepository.findByIsCompleteTrue();
-        return completedLists;
+    public List<ToDoListDTO> getAllCompletedLists(){
+        List<ToDoList> completedLists = toDoListRepository.findByItemsIsCompletedTrue();
+        List<ToDoListDTO> toDoListDTOS = new ArrayList<>();
+        for(ToDoList toDoList : completedLists){
+            toDoListDTOS.add(toDoListDTOBuilder(toDoList));
+        }
+        return toDoListDTOS;
     }
     //update boolean method from false to true
-    public ToDoItem updateItemCompletion(Long listId, Long itemId, boolean isCompleted){
-        // create ToDoList variable
-        //create ToDoItem variable
-       ToDoList toDoList = toDoListRepository.findById(listId).get();
+    public ToDoItem updateItemCompletion(Long itemId, boolean isCompleted){
        ToDoItem toDoItem = toDoItemRepository.findById(itemId).get();
        toDoItem.setCompleted(isCompleted);
-       //loop through items in the list
-        boolean allCompleted = true;
-        for (ToDoItem item : toDoList.getItems()){
-            if (item.isCompleted()==false){
-                allCompleted = false;
-                break;
-            }
-        }
-        toDoList.setComplete(allCompleted);
-        toDoListRepository.save(toDoList);
        return toDoItemRepository.save(toDoItem);
     }
+
+    private ToDoListDTO toDoListDTOBuilder(ToDoList toDoList){
+        return new ToDoListDTO(toDoList.getId(), toDoList.getItems(), toDoList.getDate(), toDoList.checkListIsCompleted());
+    }
+
 
 
 }

@@ -19,13 +19,13 @@ public class ToDoItem {
     @JsonIgnoreProperties({"items"})
     private ToDoList toDoList;
     @Column
-    private boolean completed;
+    private boolean isCompleted;
 
-    public ToDoItem(Long id, String task, ToDoList toDoList, boolean completed) {
+    public ToDoItem(Long id, String task, ToDoList toDoList) {
         this.id = id;
         this.task = task;
         this.toDoList = toDoList;
-        this.completed = false;
+        this.isCompleted = false;
     }
 
     public ToDoItem(){}
@@ -55,10 +55,10 @@ public class ToDoItem {
     }
 
     public boolean isCompleted() {
-        return completed;
+        return isCompleted;
     }
 
     public void setCompleted(boolean completed) {
-        this.completed = completed;
+        this.isCompleted = completed;
     }
 }

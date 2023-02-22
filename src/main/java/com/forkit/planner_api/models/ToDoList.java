@@ -22,15 +22,25 @@ public class ToDoList {
     @Column
     private LocalDate date;
 
-    @Column
-    private boolean isComplete;
 
-    public ToDoList(Long id, LocalDate date, boolean completed) {
+
+    public ToDoList(Long id, LocalDate date) {
         this.id = id;
         this.items = new ArrayList<>();
         this.date = date;
-        this.isComplete = false;
 
+    }
+
+    public boolean checkListIsCompleted(){
+      return this.items.stream().allMatch(toDoItem -> toDoItem.isCompleted() == true);
+      // stream - in line function without a name and return type
+                //fancy way of doing for loops
+        //all match - of every item matches an expr
+        // ession
+    }
+
+    public void addItemToList(ToDoItem toDoItem){
+        this.items.add(toDoItem);
     }
 
 
@@ -61,11 +71,4 @@ public class ToDoList {
         this.date = date;
     }
 
-    public boolean isComplete() {
-        return isComplete;
-    }
-
-    public void setComplete(boolean complete) {
-        isComplete = complete;
-    }
 }

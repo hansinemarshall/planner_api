@@ -2,6 +2,7 @@ package com.forkit.planner_api.controllers;
 
 import com.forkit.planner_api.models.ToDoItem;
 import com.forkit.planner_api.models.ToDoList;
+import com.forkit.planner_api.models.ToDoListDTO;
 import com.forkit.planner_api.services.ToDoListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
@@ -37,7 +38,7 @@ public class ToDoListController {
 
     //GET
     @GetMapping
-    public ResponseEntity<List<ToDoList>> getAllListAndFilteredList(@RequestParam(name = "complete") Optional<Boolean> isComplete) {
+    public ResponseEntity<List<ToDoListDTO>> getAllListAndFilteredList(@RequestParam(name = "complete") Optional<Boolean> isComplete) {
         if (isComplete.isPresent()) {
             return new ResponseEntity<>(toDoListService.getAllCompletedLists(), HttpStatus.OK);
         } else {
@@ -46,10 +47,10 @@ public class ToDoListController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<ToDoList> getListById(@PathVariable Long id) {
-        Optional<ToDoList> list = toDoListService.findListById(id);
-        if (list.isPresent()) {
-            return new ResponseEntity<>(list.get(), HttpStatus.OK);
+    public ResponseEntity<ToDoListDTO> getListById(@PathVariable Long id) {
+        ToDoListDTO list = toDoListService.findListById(id);
+        if (list != null) {
+            return new ResponseEntity<>(list, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
@@ -57,9 +58,9 @@ public class ToDoListController {
 
     //PATCH
     @PatchMapping(value = "/{listId}/item/{itemId}")
-    public ResponseEntity<ToDoItem> updateItemCompletion(@RequestBody ToDoItem updatedItem, @PathVariable Long listId, @PathVariable Long itemId) {
-        boolean completed = updatedItem.isCompleted();
-        toDoListService.updateItemCompletion(listId, itemId, completed);
+    public ResponseEntity<ToDoItem> updateItemCompletion(@RequestBody Boolean isCompleted, @PathVariable Long listId, @PathVariable Long itemId) {
+        //boolean completed = updatedItem.isCompleted();
+       ToDoItem updatedItem = toDoListService.updateItemCompletion(itemId, isCompleted);
         return new ResponseEntity<>(updatedItem, HttpStatus.OK);
     }
     // request body is item - how to just take in boolean?
@@ -73,7 +74,7 @@ public class ToDoListController {
         return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
     }
 
-    @DeleteMapping(value = "/{id}")
+    @DeleteMapping(value = "/{listId}")
     public ResponseEntity deleteList(@PathVariable Long listId) {
 //        Long itemId = toDoListService.findItemById(id);
         toDoListService.deleteList(listId);
