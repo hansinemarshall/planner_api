@@ -33,10 +33,10 @@ public class DataLoader implements ApplicationRunner {
         toDoListRepository.save(list3);
 
         // ITEMS
-        ToDoItem item1 = new ToDoItem("Your first To Do task", list1);
+        ToDoItem item1 = new ToDoItem("Your first Shopping List", list1);
         toDoItemRepository.save(item1);
 
-        ToDoItem item2 = new ToDoItem("Keep adding your tasks here (ps: don't forget to update priority for urgent tasks!!)", list1);
+        ToDoItem item2 = new ToDoItem("Add as many items as you would like... and don't forget to update each item's priority rating", list1);
         toDoItemRepository.save(item2);
 
         ToDoItem item3 = new ToDoItem("You can create multiple To Do Lists for different types of task/list", list2);
