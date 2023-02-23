@@ -26,11 +26,11 @@ public class ToDoItem {
     @Column
     private boolean isCompleted;
 
-    public ToDoItem(String task, ToDoList toDoList, Priority priority) {
+    public ToDoItem(String task, ToDoList toDoList) {
         this.task = task;
         this.toDoList = toDoList;
         this.isCompleted = false;
-        this.priority = priority;
+        this.priority = Priority.LOW;
     }
 
     public ToDoItem(){}

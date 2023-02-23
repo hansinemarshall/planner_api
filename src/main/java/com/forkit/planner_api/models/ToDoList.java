@@ -1,6 +1,7 @@
 package com.forkit.planner_api.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.forkit.planner_api.enums.Topic;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -22,18 +23,22 @@ public class ToDoList {
     @Column
     private LocalDate date;
 
+    @Enumerated(EnumType.ORDINAL)
+    @Column
+    private Topic topic;
 
 
-    public ToDoList(LocalDate date) {
+
+    public ToDoList(LocalDate date, Topic topic) {
         this.items = new ArrayList<>();
         this.date = date;
+        this.topic = topic;
     }
 
     public boolean checkListIsCompleted(){
       return this.items.stream().allMatch(toDoItem -> toDoItem.isCompleted() == true);
 
     }
-
     public void addItemToList(ToDoItem toDoItem){
         this.items.add(toDoItem);
     }
@@ -66,4 +71,11 @@ public class ToDoList {
         this.date = date;
     }
 
+    public Topic getTopic() {
+        return topic;
+    }
+
+    public void setTopic(Topic topic) {
+        this.topic = topic;
+    }
 }

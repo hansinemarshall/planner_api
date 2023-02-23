@@ -23,15 +23,9 @@ public class ToDoListService {
     @Autowired
     ToDoItemRepository toDoItemRepository;
 
+
+
     //-------------- TODOITEMS ---------------
-
-    public ToDoItem changeItemPriority (Long itemId, Priority priority) {
-        ToDoItem item = toDoItemRepository.findById(itemId).get();
-        item.setPriority(priority);
-        return toDoItemRepository.save(item);
-    }
-
-
 
     // add item
     public ToDoItem addItem (ToDoItem item){ return toDoItemRepository.save(item);}
@@ -56,12 +50,21 @@ public class ToDoListService {
     if(list.getItems().isEmpty()){
         toDoListRepository.deleteById(listId);
     }
-
     }
 
-    // update item
+    // update item details
     public void updateItem (ToDoItem item){ toDoItemRepository.save(item);}
-    //filter item by priority
+
+
+    // change item priority from default (i.e. from low to med/high)
+    public ToDoItem changeItemPriority (Long itemId, Priority priority) {
+        ToDoItem item = toDoItemRepository.findById(itemId).get();
+        item.setPriority(priority);
+        return toDoItemRepository.save(item);
+    }
+
+
+
 
     //----------- TODOLIST ----------
 
@@ -77,9 +80,9 @@ public class ToDoListService {
         newItem.setToDoList(listToUpdate);
         toDoItemRepository.save(newItem);
         toDoListRepository.save(listToUpdate);
-
     }
-    // find toDoList by Id
+
+    // find toDoList by ID
     public ToDoListDTO  findListById (Long Id){
         Optional<ToDoList> result = toDoListRepository.findById(Id);
         if (result.isEmpty()){
@@ -89,6 +92,7 @@ public class ToDoListService {
         ToDoListDTO toDoListDTO = toDoListDTOBuilder(toDoList);
         return toDoListDTO;
     }
+
     //display toDoList
     public List<ToDoListDTO> findAllLists (){
         List<ToDoList> toDoLists = toDoListRepository.findAll();
@@ -103,11 +107,14 @@ public class ToDoListService {
         List<ToDoList> listsFilteredByDate = toDoListRepository.findByDate(date);
         return listsFilteredByDate;
     }
+
+
     //delete toDolIst
     public void deleteList(Long id){
         toDoListRepository.deleteById(id);
     }
-    // show todolist is complete
+
+    // find completed to do lists
     public List<ToDoListDTO> getAllCompletedLists(){
         List<ToDoList> completedLists = toDoListRepository.findByItemsIsCompletedTrue();
         List<ToDoListDTO> toDoListDTOS = new ArrayList<>();
@@ -116,7 +123,8 @@ public class ToDoListService {
         }
         return toDoListDTOS;
     }
-    //update boolean method from false to true
+
+    //update item completion status (i.e. boolean false --> true)
     public ToDoItem updateItemCompletion(Long itemId, boolean isCompleted){
        ToDoItem toDoItem = toDoItemRepository.findById(itemId).get();
        toDoItem.setCompleted(isCompleted);
@@ -124,9 +132,7 @@ public class ToDoListService {
     }
 
     private ToDoListDTO toDoListDTOBuilder(ToDoList toDoList){
-        return new ToDoListDTO(toDoList.getItems(), toDoList.getDate(), toDoList.checkListIsCompleted());
+        return new ToDoListDTO(toDoList.getId(), toDoList.getItems(), toDoList.getDate(), toDoList.checkListIsCompleted(), toDoList.getTopic().getTopicTitle());
     }
-
-
 
 }

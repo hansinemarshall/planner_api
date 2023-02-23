@@ -13,4 +13,5 @@ import java.util.List;
 public interface ToDoListRepository extends JpaRepository<ToDoList, Long> {
     List<ToDoList> findByDate (LocalDate date);
     List<ToDoList>findByItemsIsCompletedTrue();
+
 }

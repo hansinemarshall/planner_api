@@ -1,7 +1,10 @@
 package com.forkit.planner_api.models;
 
+import com.forkit.planner_api.enums.Topic;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ToDoListDTO {
@@ -10,12 +13,14 @@ public class ToDoListDTO {
     private List<ToDoItem> items;
     private LocalDate date;
     private boolean isCompleted;
+    private String topic;
 
-    public ToDoListDTO( List<ToDoItem> items, LocalDate date, boolean isCompleted) {
-
+    public ToDoListDTO(Long id, List<ToDoItem> items, LocalDate date, boolean isCompleted, String topic) {
+        this.id = id;
         this.items = items;
         this.date = date;
         this.isCompleted = isCompleted;
+        this.topic = topic;
     }
 
     public ToDoListDTO() {
@@ -51,5 +56,13 @@ public class ToDoListDTO {
 
     public void setCompleted(boolean completed) {
         isCompleted = completed;
+    }
+
+    public String getTopic() {
+        return topic;
+    }
+
+    public void setTopic(String topic) {
+        this.topic = topic;
     }
 }
