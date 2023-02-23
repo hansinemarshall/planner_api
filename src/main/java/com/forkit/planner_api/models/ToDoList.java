@@ -16,7 +16,7 @@ public class ToDoList {
     @Column
     private Long id;
 
-    @OneToMany(mappedBy = "toDoList")
+    @OneToMany(mappedBy = "toDoList", cascade = CascadeType.REMOVE)
     @JsonIgnoreProperties({"toDoList"})
     private List<ToDoItem> items;
 
@@ -37,12 +37,12 @@ public class ToDoList {
 
     public boolean checkListIsCompleted(){
       return this.items.stream().allMatch(toDoItem -> toDoItem.isCompleted() == true);
-
     }
+
+
     public void addItemToList(ToDoItem toDoItem){
         this.items.add(toDoItem);
     }
-
 
 
     public ToDoList(){}

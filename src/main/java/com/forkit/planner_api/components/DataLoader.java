@@ -45,14 +45,6 @@ public class DataLoader implements ApplicationRunner {
         ToDoItem item4 = new ToDoItem("Bucket List", list3);
         toDoItemRepository.save(item4);
 
-        /*
-        1. why is list id null (postman) but working elsewhere
-        ^ we took out id from constructors
-        2. how can we set priorities without using constructor
-        ^we tried set method but resulted as null
-        ^^ our patch method for updating priority works
-         */
-
 
     }
 }

@@ -21,7 +21,6 @@ public class ToDoListController {
     ToDoListService toDoListService;
 
     //POST
-
     @PostMapping
     public ResponseEntity<ToDoList> addNewList(@RequestBody ToDoList list) {
         toDoListService.saveList(list);
@@ -30,10 +29,7 @@ public class ToDoListController {
 
     @PostMapping("/{listId}")
     public ResponseEntity<ToDoItem> addItemToList(@RequestBody ToDoItem item, @PathVariable Long listId) {
-//        ToDoItem newItem = toDoListService.addItem(item);
-//        Long itemId = newItem.getId();
         toDoListService.addItemToToDoList(listId, item);
-//        Optional<ToDoList> listToAddItem = toDoListService.findListById(listId);
         return new ResponseEntity<>(item, HttpStatus.CREATED);
     }
 
@@ -60,12 +56,9 @@ public class ToDoListController {
     //PATCH
     @PatchMapping(value = "/{listId}/item/{itemId}")
     public ResponseEntity<ToDoItem> updateItemCompletion(@RequestBody Boolean isCompleted, @PathVariable Long listId, @PathVariable Long itemId) {
-        //boolean completed = updatedItem.isCompleted();
        ToDoItem updatedItem = toDoListService.updateItemCompletion(itemId, isCompleted);
         return new ResponseEntity<>(updatedItem, HttpStatus.OK);
     }
-    // request body is item - how to just take in boolean?
-
 
     @PatchMapping(value = "/item/{itemId}")
     public ResponseEntity<ToDoItem> changeItemPriority(@RequestBody Priority priority , @PathVariable Long itemId) {
@@ -73,17 +66,15 @@ public class ToDoListController {
         return new ResponseEntity<>(item, HttpStatus.OK);
     }
 
-    //DELETE ITEM
+    //DELETE
     @DeleteMapping(value = "/{listId}/item/{itemId}")
     public ResponseEntity deleteItem(@PathVariable Long listId, @PathVariable Long itemId) {
-//        Long itemId = toDoListService.findItemById(id);
         toDoListService.deleteItem(listId, itemId);
         return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
     }
 
     @DeleteMapping(value = "/{listId}")
     public ResponseEntity deleteList(@PathVariable Long listId) {
-//        Long itemId = toDoListService.findItemById(id);
         toDoListService.deleteList(listId);
         return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
     }

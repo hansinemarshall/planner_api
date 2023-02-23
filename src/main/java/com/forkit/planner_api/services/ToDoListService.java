@@ -77,6 +77,7 @@ public class ToDoListService {
     public void addItemToToDoList(Long toDoListId, ToDoItem newItem){
         ToDoList listToUpdate = toDoListRepository.findById(toDoListId).get();
         listToUpdate.addItemToList(newItem);
+        newItem.setPriority(Priority.LOW);
         newItem.setToDoList(listToUpdate);
         toDoItemRepository.save(newItem);
         toDoListRepository.save(listToUpdate);
