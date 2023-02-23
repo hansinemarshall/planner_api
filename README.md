@@ -1,4 +1,4 @@
-# Backend Project (BNTA Week 7)
+# Backend Project (BNTA Week 6)
 
 # List of Collaborators
 A 1-week group-based project consisting of the Bright Network Technology Academy Cohort 8 members:
@@ -9,17 +9,20 @@ A 1-week group-based project consisting of the Bright Network Technology Academy
 
 
 # Project Theme
-- Add Project Theme details 
+We decided as a group to create a to-do list API for our project as it can be used for day-to-day activities. Past research shows that using a daily to-do list can be very helpful as it can boost a person's productivity and memory, resulting in long-term benefits such as maintaining good mental health.
 
 This API was created using Java. We then used SpringBoot to implement the Spring Framework. Postman and H2 database was used to view our API request endpoints.
 
 
 # Project Timeline
+
+<img width="895" alt = "Project Timeline" src = "https://i.imgur.com/3cl68Le.png">
+
 ~ **Friday (17/02/2023)** 
 - Project group was set.
 - Started discussing ideas for our project theme.
 
-~ **Monday (20/02/2023)** -- 
+~ **Monday (20/02/2023)** 
 - Our project theme was set.
 - Created our UML diagram.
 - Created our ER diagram.
@@ -30,18 +33,20 @@ This API was created using Java. We then used SpringBoot to implement the Spring
 ~ **Tuesday (21/02/2023)**
 - Created our controllers package.
 - Used Postman to view our API request endpoints.
-- Debugging
+- Debugging.
 
 ~ **Wednesday (22/02/2023)**
-- Implemented a DT0
-- Implemented enums
+- Implemented a DTO.
+- Implemented enums.
 
 ~ **Thursday (23/02/2023)**
-- Branch merging
-- Started prepartions for presentation 
+- Branch merging.
+- Started prepartions for presentation.
 
 ~ **Friday (23/02/2023)**
-- Presentation day 
+- Presentation day.
+
+
 
 # The API
 - A One-to-Many relationship between ToDoItem and ToDoList.
@@ -66,57 +71,61 @@ This API was created using Java. We then used SpringBoot to implement the Spring
 
 |**GET METHODS**|
 |:----------- |
-|**GET ToDoListById** : localhost:8080/todolists/1|
-|**GET AllDoLists** : localhost:8080/todolists|
+|**GET ToDoListById** : http://localhost:8080/todolists/1|
+|**GET AllDoLists** : http://localhost:8080/todolists|
 
 ## 2. POST (CREATE)
 
 **POST New ToDoList**:
 
 This will add a new list with the topic type *"add topic type"*:
-- localhost:8080/todolists
+```
+ URL : http://localhost:8080/todolists
 
 {
 
     "date" :  "insert date here"
     "topic" : "insert topic here"
 }
-
+```
 **POST New ToDoItem**: 
 
 This will add a new item with the task type *"add task type"*:
-- localhost:8080/todolists/1
+```
+URL : http://localhost:8080/todolists/1
 
 
 {
 
     "task" : "insert task here"
 }
-
+```
 
 ## 3. PATCH 
 
 **PATCH UpdateItemCompletion**:
-- localhost:8080/todolists/1/item/5
+```
+URL: http://localhost:8080/todolists/1/item/5
 
 {
 
     true
 }
-
+```
 **PATCH ChangeItemPriority**:
-- localhost:8080/todolists/item/5
+```
+URL : http://localhost:8080/todolists/item/5
 
 {
 
     enum value (i.e. 0 = LOW, 1 = MEDIUM, 2 = HIGH)
 }
-
+```
 
 ## 4. DELETE
 |**DELETE METHODS**|
 |:----------- |
-|**DELETE ToDoItem** : localhost:8080/todolists/1/item/1|
-|**DELETE ToDoList** : localhost:8080/todolists/1|
+|**DELETE ToDoItem** : http://localhost:8080/todolists/1/item/1|
+|**DELETE ToDoList** : http://localhost:8080/todolists/1|
 
 
