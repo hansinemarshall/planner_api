@@ -126,6 +126,8 @@ In Postman, select Body -> JSON -> raw  and enter the following for the request 
 }
 ```````
 
+In this example, the topic enum value is "GIFT_IDEAS". If you want to use other examples, please refer to the listed topic enum values in the API description. Anything not on the list will NOT work.
+
 **2.2 POST New ToDoItem**: 
 ``````
 Method: POST 
@@ -174,11 +176,15 @@ This method updates the priority of a specific to-do item in a to-do list based 
 
 In Postman, select Body -> JSON -> raw  and enter the following for the request body:
 
-```
-{
-    enum value (i.e. 0 = LOW, 1 = MEDIUM, 2 = HIGH)
-}
-```
+````
+1
+````
+
+In this example, the priority level is changed to MEDIUM. <br> 
+Put in 0 to change  priority level to LOW.<br>
+Put in 2 to change  priority level to HIGH.<br>
+
+**NOTE: No curly brackets are required in the request body.** 
 
 <hr />
 
